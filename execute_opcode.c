@@ -1,16 +1,21 @@
 #include "monty.h"
 
-instruction_t instructions[] =
+/**
+ * execute_opcode - function executes the opcode
+ * @opcode: the command to be executed
+ * @op_arg: the number to be operated
+ * @stack: double pointer to the stack to operate on
+ * @linecount: the line number
+ *
+ * Return: void
+ */
+void execute_opcode(char *opcode, int op_arg, stack_t **stack, int linecount)
 {
-	{"push", op_push},
-	{"pall", op_pall}
-};
-
-#define NUM_INSTRUCTIONS (sizeof(instructions) / sizeof(instruction_t))
-
-void execute_opcode(char *opcode, int op_arg)
-{
-	int i;
+	unsigned int i;
+	instruction_t instructions[] = {
+		{"push", op_push},
+		{"pall", op_pall},
+	};
 
 	for (i = 0; i < NUM_INSTRUCTIONS; i++)
 	{
@@ -20,5 +25,6 @@ void execute_opcode(char *opcode, int op_arg)
 			return;
 		}
 	}
-	printf("Unknown opcode '%s' at line %d\n", opcode, line_number);
+	printf("L%d: unknown instruction %s\n", linecount, opcode);
+	exit(EXIT_FAILURE);
 }
