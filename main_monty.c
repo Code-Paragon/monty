@@ -1,6 +1,54 @@
 #include "monty.h"
 
 /**
+ * read_line - reads lines from file one at a time and dynamically allocates memory for it
+ * @file: file to read from
+ *
+ * Return: line read
+ */
+char* read_line(FILE* file)
+{
+	int c, buffer_size = BUFFER_SIZE;
+	char *line, *position;
+
+	line = (char*)malloc(buffer_size * sizeof(char));
+	if (!line)
+	{
+		fprintf(stderr, "read_line Memory allocation error");
+		exit(EXIT_FAILURE);
+	}
+
+	position = line;
+	while(1)
+	{
+		c = fgetc(file);
+
+		if (c == EOF || c == '\n')
+		{
+			*position = '\0';
+			return line;
+		}
+
+		*position = (char)c;
+		position++;
+
+		/*If the buffer is full, reallocate more memory*/
+		if (position - line >= buffer_size - 1)
+		{
+			buffer_size *= 2;
+			line = (char*)realloc(line, buffer_size * sizeof(char));
+
+			if (!line)
+			{
+				fprintf(stderr, "read_line Memory allocation error");
+				exit(EXIT_FAILURE);
+			}
+			position = line + buffer_size / 2 - 1;
+		}
+	}
+}
+
+/**
  * main - this is the main functuon that interpretes Monty BytesCodes files
  * @opcode: the stack command to be executed
  * @op_arg: argument of opcode
@@ -16,7 +64,7 @@ int main(int argc, char *argv[])
 {
 	const char *filename;
 	FILE *file;
-	char line[10];
+	char *line;
 	stack_t *stack = NULL;
 	int linecount = 0;
 
@@ -34,13 +82,18 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	while (fgets(line, sizeof(line), file) != NULL)
+	while ((line = read_line(file)) != NULL)
 	{
 		linecount++;
 		if (strcmp(line, "\0") == 0)
+		{
 			continue;
+			free(line);
+		}
 		handleLines(line, &stack, linecount);
+		free(line);
 	}
+
 	fclose(file);
 	return (0);
 }

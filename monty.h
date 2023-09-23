@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define BUFFER_SIZE 128
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -38,6 +39,7 @@ typedef struct instruction_s
 
 #define NUM_INSTRUCTIONS (sizeof(instructions) / sizeof(instruction_t))
 
+char* read_line(FILE* file);
 void op_push(stack_t **stack, unsigned int op_arg);
 void op_pall(stack_t **stack, unsigned int op_arg __attribute__((unused)));
 void execute_opcode(char *opcode, int op_arg, stack_t **stack, int linecount);
