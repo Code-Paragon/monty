@@ -37,9 +37,6 @@ int main(int argc, char *argv[])
 	while (fgets(line, sizeof(line), file) != NULL)
 	{
 		linecount++;
-		printf("Line %d: %s\n", linecount, line);
-		if (strcmp(line, "\0") == 0)
-			continue;
 		handleLines(line, &stack, linecount);
 	}
 
@@ -57,29 +54,20 @@ int main(int argc, char *argv[])
  */
 void handleLines(char *line, stack_t **stack, int linecount)
 {
-	char *opcode, *op_argstr, *pall;
+	char *opcode, *op_argstr;
 	char delimiters[] = " $";
 	unsigned int op_arg;
 
-	printf("Handling line %d: %s\n", linecount, line);
 	if (line[0] == '\0' || strspn(line, " \t\n") == strlen(line))
-	{
-		printf("Empty or whitespace line. Skipping.\n");
 		return;
-	}
 
-	pall = "pall";
 	opcode = strtok(line, delimiters);
 	op_argstr = strtok(NULL, delimiters);
-	op_arg = atoi(op_argstr);
-
-	if (strcmp(opcode, pall) != 0)
+	if (strcmp(op_argstr, "\n") == 0 && strcmp(opcode, "push") == 0)
 	{
-		if (op_arg == 0 && op_argstr == NULL)
-		{
-			fprintf(stderr, "L%d: usage: push integer\n", linecount);
-			exit(EXIT_FAILURE);
-		}
+		fprintf(stderr, "L%d: usage: push integer\n", linecount);
+		exit(EXIT_FAILURE);
 	}
+	op_arg = atoi(op_argstr);
 	execute_opcode(opcode, op_arg, stack, linecount);
 }

@@ -12,7 +12,6 @@ void op_push(stack_t **stack, unsigned int op_arg)
 {
 	stack_t *new_node;
 
-	printf("op_push called with arg: %d\n", op_arg);
 	new_node = malloc(sizeof(stack_t));
 	if (new_node == NULL)
 	{
@@ -32,7 +31,6 @@ void op_push(stack_t **stack, unsigned int op_arg)
 	}
 
 	*stack = new_node;
-	printf("Pushed: %d\n", op_arg);
 }
 /**
  * op_pall - the pall opcode function, displays the stack
