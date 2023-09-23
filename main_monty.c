@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
 	while (fgets(line, sizeof(line), file) != NULL)
 	{
 		linecount++;
+		if (strcmp(line, "\0") == 0)
+			continue;
 		handleLines(line, &stack, linecount);
 	}
 	fclose(file);
@@ -64,7 +66,7 @@ void handleLines(char *line, stack_t **stack, int linecount)
 
 	if (strcmp(opcode, pall) != 0)
 	{
-		if (op_arg == 0 && strcmp(op_argstr, "0") != 0)
+		if (op_arg == 0 && op_argstr == NULL)
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", linecount);
 			exit(EXIT_FAILURE);
