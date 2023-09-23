@@ -1,6 +1,27 @@
 #include "monty.h"
 
 /**
+ * cleanup_stack - cleans the stack node when program exits
+ * @stack: stack to be cleaned
+ *
+ * Return: void
+ */
+
+void cleanup_stack(stack_t *stack)
+{
+	stack_t *current;
+
+	current = stack;
+	while (current != NULL)
+	{
+		stack_t *temp = current;
+
+		current = current->next;
+		free(temp);
+	}
+}
+
+/**
  * main - this is the main functuon that interpretes Monty BytesCodes files
  * @opcode: the stack command to be executed
  * @op_arg: argument of opcode
@@ -41,6 +62,8 @@ int main(int argc, char *argv[])
 	}
 
 	fclose(file);
+
+	cleanup_stack(stack);
 	return (0);
 }
 
