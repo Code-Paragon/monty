@@ -108,5 +108,10 @@ void handleLines(char *line, stack_t **stack, int linecount)
 		}
 		op_pop(stack, linecount);
 	}
+	if (strcmp(opcode, "add") == 0 && linecount <= 2)
+	{
+		fprintf(stderr, "L%d: can't add, stack too short\n", linecount);
+		exit(EXIT_FAILURE);
+	}
 	execute_opcode(opcode, op_arg, stack, linecount);
 }

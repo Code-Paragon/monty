@@ -16,6 +16,7 @@ void execute_opcode(char *opcode, int op_arg, stack_t **stack, int linecount)
 		{"push", op_push},
 		{"pall", op_pall},
 		{"pop", op_pop},
+		{"add", op_add},
 		{"nop", op_nop},
 	};
 

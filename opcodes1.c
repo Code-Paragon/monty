@@ -63,11 +63,32 @@ void op_pop(stack_t **stack, unsigned int op_arg __attribute__((unused)))
 	*stack = (*stack)->next;
 
 	if (*stack == NULL)
-		exit(0);
+		exit(1);
 	if (*stack != NULL)
 		(*stack)->prev = NULL;
 	free(temp);
 }
+
+/**
+ * op_add - adds the top two elements of the stack.
+ * @stack: double pointer to the stack
+ * @op_arg: the number to be printed
+ *
+ * Return: void
+ */
+void op_add(stack_t **stack, unsigned int op_arg __attribute__((unused)))
+{
+	int result = (*stack)->n + (*stack)->next->n;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+	{
+		fprintf(stderr, "L1: can't add, stack too short\n");
+		exit(EXIT_FAILURE);
+	}
+	op_pop(stack, 0);
+	(*stack)->n = result;
+}
+
 /**
  * op_nop - does nothing
  * @stack: double pointer to the stack
@@ -75,6 +96,7 @@ void op_pop(stack_t **stack, unsigned int op_arg __attribute__((unused)))
  *
  * Return: void
  */
-void op_nop(stack_t **stack __attribute__((unused)), unsigned int op_arg __attribute__((unused)))
+void op_nop(stack_t **stack __attribute__((unused)),
+		unsigned int op_arg __attribute__((unused)))
 {
 }
