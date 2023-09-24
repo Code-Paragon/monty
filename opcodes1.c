@@ -7,7 +7,6 @@
  *
  * Return: void
  */
-
 void op_push(stack_t **stack, unsigned int op_arg)
 {
 	stack_t *new_node;
@@ -32,6 +31,7 @@ void op_push(stack_t **stack, unsigned int op_arg)
 
 	*stack = new_node;
 }
+
 /**
  * op_pall - the pall opcode function, displays the stack
  * @stack: double pointer to the stack
@@ -48,4 +48,21 @@ void op_pall(stack_t **stack, unsigned int op_arg __attribute__((unused)))
 		printf("%d\n", current->n);
 		current = current->next;
 	}
+}
+
+/**
+ * op_pop -  removes the top element of the stack.
+ * @stack: double pointer to the stack
+ * @op_arg: the number to be printed
+ *
+ * Return: void
+ */
+void op_pop(stack_t **stack, unsigned int op_arg __attribute__((unused)))
+{
+	stack_t *temp = *stack;
+	*stack = (*stack)->next;
+
+	if (*stack != NULL)
+		(*stack)->prev = NULL;
+	free(temp);
 }

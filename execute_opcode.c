@@ -15,6 +15,7 @@ void execute_opcode(char *opcode, int op_arg, stack_t **stack, int linecount)
 	instruction_t instructions[] = {
 		{"push", op_push},
 		{"pall", op_pall},
+		{"pop", op_pop},
 	};
 
 	for (i = 0; i < NUM_INSTRUCTIONS; i++)

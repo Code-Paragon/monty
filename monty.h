@@ -42,6 +42,7 @@ typedef struct instruction_s
 char *read_line(FILE *file);
 void op_push(stack_t **stack, unsigned int op_arg);
 void op_pall(stack_t **stack, unsigned int op_arg __attribute__((unused)));
+void op_pop(stack_t **stack, unsigned int op_arg __attribute__((unused)));
 void execute_opcode(char *opcode, int op_arg, stack_t **stack, int linecount);
 void handleLines(char *line, stack_t **stack, int linecount);
 

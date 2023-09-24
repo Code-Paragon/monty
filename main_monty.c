@@ -80,17 +80,31 @@ void handleLines(char *line, stack_t **stack, int linecount)
 	char *opcode, *op_argstr;
 	char delimiters[] = " $";
 	unsigned int op_arg;
+	size_t len;
 
+	len = strlen(line);
+	line[len - 1] = '\0';
 	if (line[0] == '\0' || strspn(line, " \t\n") == strlen(line))
 		return;
 
 	opcode = strtok(line, delimiters);
 	op_argstr = strtok(NULL, delimiters);
-	if (strcmp(op_argstr, "\n") == 0 && strcmp(opcode, "push") == 0)
+	if (op_argstr != NULL)
 	{
-		fprintf(stderr, "L%d: usage: push integer\n", linecount);
-		exit(EXIT_FAILURE);
+		if (strcmp(op_argstr, "\n") == 0 && strcmp(opcode, "push") == 0)
+		{
+			fprintf(stderr, "L%d: usage: push integer\n", linecount);
+			exit(EXIT_FAILURE);
+		}
+		if (strcmp(op_argstr, "\n") == 0 && strcmp(opcode, "pop") == 0)
+		{
+			if (*stack == NULL)
+			{
+				fprintf(stderr, "L%d: can't pop an empty stack\n", linecount);
+				exit(EXIT_FAILURE);
+			}
+		}
+		op_arg = atoi(op_argstr);
 	}
-	op_arg = atoi(op_argstr);
 	execute_opcode(opcode, op_arg, stack, linecount);
 }
