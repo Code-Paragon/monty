@@ -68,3 +68,13 @@ void op_pop(stack_t **stack, unsigned int op_arg __attribute__((unused)))
 		(*stack)->prev = NULL;
 	free(temp);
 }
+/**
+ * op_nop - does nothing
+ * @stack: double pointer to the stack
+ * @op_arg: the number to be printed
+ *
+ * Return: void
+ */
+void op_nop(stack_t **stack __attribute__((unused)), unsigned int op_arg __attribute__((unused)))
+{
+}

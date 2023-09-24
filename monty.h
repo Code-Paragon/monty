@@ -45,5 +45,6 @@ void op_pall(stack_t **stack, unsigned int op_arg __attribute__((unused)));
 void op_pop(stack_t **stack, unsigned int op_arg __attribute__((unused)));
 void execute_opcode(char *opcode, int op_arg, stack_t **stack, int linecount);
 void handleLines(char *line, stack_t **stack, int linecount);
+void op_nop(stack_t **stack, unsigned int op_arg __attribute__((unused)));
 
 #endif /* _MONTY_H_ */
