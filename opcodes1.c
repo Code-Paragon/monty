@@ -62,6 +62,8 @@ void op_pop(stack_t **stack, unsigned int op_arg __attribute__((unused)))
 	stack_t *temp = *stack;
 	*stack = (*stack)->next;
 
+	if (*stack == NULL)
+		exit(0);
 	if (*stack != NULL)
 		(*stack)->prev = NULL;
 	free(temp);

@@ -84,6 +84,7 @@ void handleLines(char *line, stack_t **stack, int linecount)
 
 	len = strlen(line);
 	line[len - 1] = '\0';
+
 	if (line[0] == '\0' || strspn(line, " \t\n") == strlen(line))
 		return;
 
@@ -96,15 +97,16 @@ void handleLines(char *line, stack_t **stack, int linecount)
 			fprintf(stderr, "L%d: usage: push integer\n", linecount);
 			exit(EXIT_FAILURE);
 		}
-		if (strcmp(op_argstr, "\n") == 0 && strcmp(opcode, "pop") == 0)
-		{
-			if (*stack == NULL)
-			{
-				fprintf(stderr, "L%d: can't pop an empty stack\n", linecount);
-				exit(EXIT_FAILURE);
-			}
-		}
 		op_arg = atoi(op_argstr);
+	}
+	if (strcmp(opcode, "pop") == 0)
+	{
+		if (*stack == NULL)
+		{
+			fprintf(stderr, "L%d: can't pop an empty stack\n", linecount);
+			exit(EXIT_FAILURE);
+		}
+		op_pop(stack, linecount);
 	}
 	execute_opcode(opcode, op_arg, stack, linecount);
 }
